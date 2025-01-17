@@ -7,8 +7,10 @@
 #define MAX_TOKENS 100
 #define MAX_TOKEN_LEN 20
 #define MAX_REGISTERS 10
+#define CONSOLE_WIDTH 80 // Adjust this width to match your console
 
 // Function prototypes
+void displayWelcomePage();
 int tokenize(const char *code, char tokens[MAX_TOKENS][MAX_TOKEN_LEN]);
 int infixToPostfix(char tokens[MAX_TOKENS][MAX_TOKEN_LEN], int tokenCount, char postfix[MAX_TOKENS][MAX_TOKEN_LEN]);
 void generateAssembly(const char *resultVar, char tokens[MAX_TOKENS][MAX_TOKEN_LEN], int tokenCount, int *finalResult, int *isUndefined);
@@ -23,6 +25,9 @@ int main()
     char postfix[MAX_TOKENS][MAX_TOKEN_LEN];
     int tokenCount, postfixCount, finalResult;
     int isUndefined = 0; // Flag to check for undefined result (division by zero)
+
+    // Display the welcome page
+    displayWelcomePage();
 
     printf("Enter an arithmetic expression (e.g., result = a + b):\n");
     fgets(code, sizeof(code), stdin);
@@ -72,6 +77,36 @@ int main()
     }
 
     return 0;
+}
+
+// Display a centered welcome page
+void displayWelcomePage()
+{
+    const char *message[] = {
+        "**********************************************",
+        "*                                            *",
+        "*       WELCOME TO THE ARITHMETIC            *",
+        "*          EXPRESSION EVALUATOR             *",
+        "*                                            *",
+        "*      Enter expressions like:              *",
+        "*       result = a + b * c                  *",
+        "*                                            *",
+        "*       Supports +, -, *, and / operators.  *",
+        "*                                            *",
+        "**********************************************"};
+
+    int messageWidth = strlen(message[0]);
+    int padding = (CONSOLE_WIDTH - messageWidth) / 2;
+
+    for (int i = 0; i < 11; i++)
+    {
+        for (int j = 0; j < padding; j++)
+        {
+            printf(" ");
+        }
+        printf("%s\n", message[i]);
+    }
+    printf("\n");
 }
 
 // Tokenize the input code
